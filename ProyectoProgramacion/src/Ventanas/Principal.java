@@ -16,14 +16,14 @@ import javax.swing.JOptionPane;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private ArrayList<Cliente> ltaClientes=new ArrayList<>();
+    private Cliente[] ltaClientes=null;
     private int nclientes=0;
     
-    public ArrayList<Cliente> getLtaClientes() {
+    public Cliente[] getLtaClientes() {
         return ltaClientes;
     }
 
-    public void setLtaClientes(ArrayList<Cliente> ltaClientes) {
+    public void setLtaClientes(Cliente[] ltaClientes) {
         this.ltaClientes = ltaClientes;
     }
 
@@ -144,6 +144,7 @@ public class Principal extends javax.swing.JFrame {
 
                 if(s!=null){
                     this.setNclientes(Integer.parseInt(s));
+                    ltaClientes=new Cliente[this.getNclientes()];
                     lblclientes.setText("Clientes: "+String.valueOf(this.getNclientes()));
 
                 }
