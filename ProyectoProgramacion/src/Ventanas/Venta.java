@@ -5,15 +5,24 @@
  */
 package Ventanas;
 
+import Clases.Cliente;
+
 /**
  *
  * @author David
  */
 public class Venta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Venta
-     */
+    private Cliente[] ltaClientes=null;
+    
+    public Cliente[] getLtaClientes() {
+        return ltaClientes;
+    }
+
+    public void setLtaClientes(Cliente[] ltaClientes) {
+        this.ltaClientes = ltaClientes;
+    }
+    
     public Venta() {
         initComponents();
     }
@@ -38,8 +47,6 @@ public class Venta extends javax.swing.JFrame {
         jLabel1.setText("VENTA DE PASAJES");
 
         jLabel2.setText("Id Cliente");
-
-        jTextField1.setText("jTextField1");
 
         jButton1.setText("Nueva Venta");
 

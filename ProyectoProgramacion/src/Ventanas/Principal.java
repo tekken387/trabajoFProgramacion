@@ -61,6 +61,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         btnClientes = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        btnVenta = new javax.swing.JMenuItem();
 
         jMenu3.setText("jMenu3");
 
@@ -94,7 +95,21 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(btnInicializar);
 
-        jMenu4.setText("Venta");
+        jMenu4.setText("Pasajes");
+        jMenu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu4ActionPerformed(evt);
+            }
+        });
+
+        btnVenta.setText("Venta");
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
+        jMenu4.add(btnVenta);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -164,6 +179,17 @@ public class Principal extends javax.swing.JFrame {
         gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
+       
+    }//GEN-LAST:event_jMenu4ActionPerformed
+
+    private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
+         Venta v=new Venta();
+        v.setVisible(true);
+        v.setLtaClientes(ltaClientes);
+        v.setDefaultCloseOperation(Venta.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_btnVentaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -200,6 +226,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnClientes;
     private javax.swing.JMenu btnInicializar;
+    private javax.swing.JMenuItem btnVenta;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
