@@ -111,6 +111,7 @@ public class GestionClientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableClientes.setColumnSelectionAllowed(true);
         tableClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         tableClientes.getTableHeader().setReorderingAllowed(false);
         tableClientes.addMouseListener(new java.awt.event.MouseAdapter() {

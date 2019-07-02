@@ -12,8 +12,9 @@ package Clases;
 public class Bus {
     private int id;
     private int capacidad;
-    private char tipoServicio;
-    private String destino;
+    private TipoServicio tipoServicio;
+    private Destino destino;
+    private Cliente[] pasajeros;
 
     public int getId() {
         return id;
@@ -31,19 +32,40 @@ public class Bus {
         this.capacidad = capacidad;
     }
 
-    public char getTipoServicio() {
+    public TipoServicio getTipoServicio() {
         return tipoServicio;
     }
 
-    public void setTipoServicio(char tipoServicio) {
+    public void setTipoServicio(TipoServicio tipoServicio) {
         this.tipoServicio = tipoServicio;
     }
 
-    public String getDestino() {
+    public Cliente[] getPasajeros() {
+        return pasajeros;
+    }
+
+    public void setPasajeros(Cliente[] pasajeros) {
+        this.pasajeros = pasajeros;
+    }
+    
+    public Cliente pasajeroxId(int id){
+        Cliente cli=null;
+        
+        for (int i = 0; i < pasajeros.length; i++) {
+            if(pasajeros[i].getId()==id){
+                cli =pasajeros[i];
+                break;
+            }
+        }
+        
+        return cli;
+    }
+
+    public Destino getDestino() {
         return destino;
     }
 
-    public void setDestino(String destino) {
+    public void setDestino(Destino destino) {
         this.destino = destino;
     }
 }

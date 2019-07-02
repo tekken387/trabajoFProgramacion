@@ -5,7 +5,10 @@
  */
 package Ventanas;
 
+import Clases.Bus;
 import Clases.Cliente;
+import Clases.Destino;
+import Clases.TipoServicio;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -17,6 +20,9 @@ import javax.swing.JOptionPane;
 public class Principal extends javax.swing.JFrame {
 
     private Cliente[] ltaClientes=null;
+    private Bus[] ltaBuses=null;
+    private Destino[] ltaDestinos=null;
+    private TipoServicio[] ltaServicios=null;
     private int nclientes=0;
     
     public Cliente[] getLtaClientes() {
@@ -27,6 +33,30 @@ public class Principal extends javax.swing.JFrame {
         this.ltaClientes = ltaClientes;
     }
 
+    public Bus[] getLtaBuses() {
+        return ltaBuses;
+    }
+
+    public void setLtaBuses(Bus[] ltaBuses) {
+        this.ltaBuses = ltaBuses;
+    }
+
+    public Destino[] getLtaDestinos() {
+        return ltaDestinos;
+    }
+
+    public void setLtaDestinos(Destino[] ltaDestinos) {
+        this.ltaDestinos = ltaDestinos;
+    }
+
+    public TipoServicio[] getLtaServicios() {
+        return ltaServicios;
+    }
+
+    public void setLtaServicios(TipoServicio[] ltaServicios) {
+        this.ltaServicios = ltaServicios;
+    }
+    
     public int getNclientes() {
         return nclientes;
     }
@@ -40,6 +70,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        ltaServicios=new TipoServicio[20];
+        ltaDestinos=new Destino[20];
+        ltaBuses=new Bus[20];
     }
 
     /**
@@ -60,6 +93,9 @@ public class Principal extends javax.swing.JFrame {
         btnInicializar = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         btnClientes = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         btnVenta = new javax.swing.JMenuItem();
 
@@ -75,9 +111,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("VENTA DE PASAJES");
 
-        btnInicializar.setText("Clientes");
+        btnInicializar.setText("Entidades");
 
-        jMenuItem3.setText("Inicializar");
+        jMenuItem3.setText("Inicializar Clientes");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -85,13 +121,37 @@ public class Principal extends javax.swing.JFrame {
         });
         btnInicializar.add(jMenuItem3);
 
-        btnClientes.setText("Gestion");
+        btnClientes.setText("Gestion Clientes");
         btnClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClientesActionPerformed(evt);
             }
         });
         btnInicializar.add(btnClientes);
+
+        jMenuItem1.setText("Gestion Buses");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        btnInicializar.add(jMenuItem1);
+
+        jMenuItem2.setText("Gestion Destinos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        btnInicializar.add(jMenuItem2);
+
+        jMenuItem4.setText("Gestion Servicios");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        btnInicializar.add(jMenuItem4);
 
         jMenuBar1.add(btnInicializar);
 
@@ -190,6 +250,29 @@ public class Principal extends javax.swing.JFrame {
         v.setDefaultCloseOperation(Venta.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnVentaActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        GestionTServicios gts = new GestionTServicios();
+        gts.setVisible(true);
+        gts.setLtaServicios(ltaServicios);
+        gts.setDefaultCloseOperation(GestionTServicios.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GestionDestinos gd=new GestionDestinos();
+        gd.setVisible(true);
+        gd.setLtaDestinos(ltaDestinos);
+        gd.setDefaultCloseOperation(GestionDestinos.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        GestionBuses gb=new GestionBuses();
+        gb.setVisible(true);
+        gb.setLtaBuses(ltaBuses);
+        gb.setLtaDestinos(ltaDestinos);
+        gb.setLtaServicios(ltaServicios);
+        gb.setDefaultCloseOperation(GestionBuses.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,9 +316,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JLabel lblclientes;
     // End of variables declaration//GEN-END:variables
+
+    
 
     
 
