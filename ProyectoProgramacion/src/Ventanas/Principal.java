@@ -250,9 +250,7 @@ public class Principal extends javax.swing.JFrame {
             gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
         }else {
             JOptionPane.showMessageDialog(this, "Clientes no Inicializados");
-        }
-       
-        
+        } 
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed

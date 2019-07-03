@@ -10,6 +10,7 @@ import Clases.Cliente;
 import Clases.Destino;
 import Clases.TipoServicio;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -138,6 +139,11 @@ public class Venta extends javax.swing.JFrame {
 
         btnRegistrocli.setText("Registrar Cliente");
         btnRegistrocli.setEnabled(false);
+        btnRegistrocli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrocliActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Destino");
 
@@ -239,16 +245,34 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevaventaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String id=txtId.getText();
+        setLtaClientes(p.getLtaClientes());
         
-        for(Cliente c:getLtaClientes()){
-            if(c.getId()==Integer.parseInt(id)){
-                txtNombrecli.setText(c.getNombre());
+        String id=txtId.getText();
+        boolean b=false;
+        
+        if(getLtaClientes()!=null){
+            for(Cliente c:getLtaClientes()){
+                if(c.getId()==Integer.parseInt(id)){
+                    txtNombrecli.setText(c.getNombre());
+                    b=true;
+                }
             }
+        }
+        
+        if(!b){
+            JOptionPane.showMessageDialog(this,"Cliente no registrado");
+            btnRegistrocli.setEnabled(true);
         }
         
         
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnRegistrocliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrocliActionPerformed
+            GestionClientes gc=new GestionClientes();
+            gc.setVisible(true);
+            gc.setLtaClientes(getLtaClientes());
+            gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_btnRegistrocliActionPerformed
 
     /**
      * @param args the command line arguments
