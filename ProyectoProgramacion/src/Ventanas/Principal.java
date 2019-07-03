@@ -235,7 +235,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         GestionClientes gc=new GestionClientes();
         gc.setVisible(true);
-        gc.setLtaClientes(ltaClientes);
+        gc.setLtaClientes(getLtaClientes());
         gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnClientesActionPerformed
 
@@ -246,30 +246,30 @@ public class Principal extends javax.swing.JFrame {
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
          Venta v=new Venta();
         v.setVisible(true);
-        v.setLtaClientes(ltaClientes);
+        v.setLtaClientes(getLtaClientes());
         v.setDefaultCloseOperation(Venta.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         GestionTServicios gts = new GestionTServicios();
         gts.setVisible(true);
-        gts.setLtaServicios(ltaServicios);
+        gts.setLtaServicios(getLtaServicios());
         gts.setDefaultCloseOperation(GestionTServicios.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         GestionDestinos gd=new GestionDestinos();
         gd.setVisible(true);
-        gd.setLtaDestinos(ltaDestinos);
+        gd.setLtaDestinos(getLtaDestinos());
         gd.setDefaultCloseOperation(GestionDestinos.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         GestionBuses gb=new GestionBuses();
         gb.setVisible(true);
-        gb.setLtaBuses(ltaBuses);
-        gb.setLtaDestinos(ltaDestinos);
-        gb.setLtaServicios(ltaServicios);
+        gb.setLtaBuses(getLtaBuses());
+        gb.setLtaDestinos(getLtaDestinos());
+        gb.setLtaServicios(getLtaServicios());
         gb.setDefaultCloseOperation(GestionBuses.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

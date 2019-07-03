@@ -8,6 +8,7 @@ package Ventanas;
 import Clases.Bus;
 import Clases.Destino;
 import Clases.TipoServicio;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,14 +23,21 @@ public class GestionBuses extends javax.swing.JFrame {
     private Bus[] ltaBuses=null;
     private TipoServicio[] ltaServicios=null;
     private Destino[] ltaDestinos=null;
-   Principal p=new Principal();
-   DefaultTableModel tableModel;
+    Principal p=new Principal();
+    DefaultTableModel tableModel;
+    DefaultComboBoxModel<Destino> modelComboDestinos;
+    DefaultComboBoxModel<TipoServicio> modelComboServicios;
+   
    
     public GestionBuses() {
         initComponents();
-        tableModel = (DefaultTableModel) tableBuses.getModel();
-        cmbDestinos=new JComboBox(ltaServicios);
-        cmbTServicios =new JComboBox(ltaDestinos);
+        tableModel = (DefaultTableModel) tableBuses.getModel();  
+        modelComboDestinos=(DefaultComboBoxModel)cmbDestinos.getModel();
+        modelComboServicios=(DefaultComboBoxModel)cmbTServicios.getModel();
+        cmbDestinos.setModel(modelComboDestinos);
+        cmbTServicios.setModel(modelComboServicios);
+        cargaServicios();
+        cargaDestinos();
     }
 
     /**
@@ -93,10 +101,7 @@ public class GestionBuses extends javax.swing.JFrame {
 
         tableBuses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Id", "Capacidad", "Tipo Servicio", "Destino"
@@ -189,6 +194,27 @@ public class GestionBuses extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cargaDestinos(){
+        if(cuentaDestinos()<1){
+            JOptionPane.showMessageDialog(this,"No hay Destinos para mostrar");
+        }else{
+            for(Destino d:getLtaDestinos()){
+                    modelComboDestinos.addElement(d);
+            }
+        }
+    }
+    
+    private void cargaServicios(){
+        
+        if(cuentaServicios()<1){
+            JOptionPane.showMessageDialog(this,"No hay Servicios para mostrar");
+        }else{
+            for(TipoServicio t:getLtaServicios()){
+                    modelComboServicios.addElement(t);
+            }
+        }
+    }
+    
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
          tableBuses.clearSelection();
         tableModel.setRowCount(0);
@@ -259,6 +285,26 @@ public class GestionBuses extends javax.swing.JFrame {
             }
         }
         return nbuses;
+    }
+    
+    public int cuentaDestinos(){
+        int ndestinos=0;
+        for (int i = 0; i < getLtaDestinos().length; i++) {
+            if(getLtaDestinos()[i]!=null){
+                ndestinos++;
+            }
+        }
+        return ndestinos;
+    }
+    
+    public int cuentaServicios(){
+        int nservicios=0;
+        for (int i = 0; i < getLtaServicios().length; i++) {
+            if(getLtaServicios()[i]!=null){
+                nservicios++;
+            }
+        }
+        return nservicios;
     }
     
     /**

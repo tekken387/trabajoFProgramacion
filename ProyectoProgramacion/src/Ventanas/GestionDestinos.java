@@ -82,10 +82,7 @@ public class GestionDestinos extends javax.swing.JFrame {
 
         tableDestinos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Id", "Descripcion"
