@@ -36,8 +36,7 @@ public class GestionBuses extends javax.swing.JFrame {
         modelComboServicios=(DefaultComboBoxModel)cmbTServicios.getModel();
         cmbDestinos.setModel(modelComboDestinos);
         cmbTServicios.setModel(modelComboServicios);
-        cargaServicios();
-        cargaDestinos();
+        
     }
 
     /**
@@ -65,6 +64,11 @@ public class GestionBuses extends javax.swing.JFrame {
         cmbDestinos = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("GESTION DE BUSES");
@@ -262,8 +266,8 @@ public class GestionBuses extends javax.swing.JFrame {
         if(capacidad.matches("([0-9]+)") && id.matches("([0-9]+)")){
             b.setCapacidad(Integer.parseInt(capacidad));
             b.setId(Integer.parseInt(id));
-            b.setDestino(d);
-            b.setTipoServicio(ts);
+            b.setDestino((Destino)cmbDestinos.getSelectedItem());
+            b.setTipoServicio((TipoServicio)cmbTServicios.getSelectedItem());
             getLtaBuses()[pos]=b;
             
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
@@ -271,11 +275,20 @@ public class GestionBuses extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Bus guardado correctamente....");
             
             txtId.setText("");
+            txtId.setEnabled(false);
+            txtCapacidad.setEnabled(false);
             txtCapacidad.setText("");
+            cmbDestinos.setEnabled(false);
+            cmbTServicios.setEnabled(false);
             btnGuardar.setEnabled(false);
             btnNuevo.setEnabled(true);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        cargaServicios();
+        cargaDestinos();
+    }//GEN-LAST:event_formComponentShown
 
     public int cuentaBuses(){
         int nbuses=0;
