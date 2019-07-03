@@ -74,6 +74,16 @@ public class Principal extends javax.swing.JFrame {
         ltaDestinos=new Destino[20];
         ltaBuses=new Bus[20];
     }
+    
+    public int cuentaClientes(){
+        int nclientes=0;
+        for (int i = 0; i < ltaClientes.length; i++) {
+            if(ltaClientes[i]!=null){
+                nclientes++;
+            }
+        }
+        return nclientes;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,10 +243,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        GestionClientes gc=new GestionClientes();
-        gc.setVisible(true);
-        gc.setLtaClientes(getLtaClientes());
-        gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
+        if(ltaClientes!=null){
+            GestionClientes gc=new GestionClientes();
+            gc.setVisible(true);
+            gc.setLtaClientes(getLtaClientes());
+            gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
+        }else {
+            JOptionPane.showMessageDialog(this, "Clientes no Inicializados");
+        }
+       
+        
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
