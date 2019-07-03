@@ -79,6 +79,11 @@ public class GestionClientes extends javax.swing.JFrame {
         jLabel1.setText("ID:");
 
         txtId.setEnabled(false);
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("GESTION DE CLIENTES");
@@ -86,6 +91,11 @@ public class GestionClientes extends javax.swing.JFrame {
         jLabel3.setText("NOMBRE:");
 
         txtNombre.setEnabled(false);
+        txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNombreFocusLost(evt);
+            }
+        });
 
         jLabel4.setText("DIRECCION:");
 
@@ -94,6 +104,11 @@ public class GestionClientes extends javax.swing.JFrame {
         jLabel5.setText("TELEFONO:");
 
         txtTelefono.setEnabled(false);
+        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTelefonoFocusLost(evt);
+            }
+        });
 
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -201,17 +216,16 @@ public class GestionClientes extends javax.swing.JFrame {
                         .addComponent(btnNuevo)
                         .addGap(18, 18, 18)
                         .addComponent(btnListar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarNombre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscarNombre))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addGap(151, 151, 151)
@@ -285,7 +299,7 @@ public class GestionClientes extends javax.swing.JFrame {
         String telefono=txtTelefono.getText();
         int pos=this.cuentaClientes();
         
-        if(!"".equals(direccion) && !"".equals(nombre) && !"".equals(telefono) && id.matches("([0-9]{5})+") && nombre.matches("([A-Z a-z])+") && telefono.matches("([0-9]{9})+")){
+        if(!"".equals(direccion) && !"".equals(nombre) && !"".equals(telefono)){
             c.setDireccion(direccion);
             c.setId(Integer.parseInt(id));
             c.setNombre(nombre);
@@ -300,7 +314,6 @@ public class GestionClientes extends javax.swing.JFrame {
             txtId.setText("");
             txtNombre.setText("");
             txtTelefono.setText("");
-            
             estadoElementosNuevo(false);
         }
     }
@@ -517,6 +530,61 @@ public class GestionClientes extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnBuscarNombreActionPerformed
+
+    public void buscarID(String id){
+        int idCli = Integer.parseInt(id);
+        for (int i = 0; i < getLtaClientes().length; i++) {
+            if(idCli==getLtaClientes()[i].getId()){
+                JOptionPane.showMessageDialog(this,"ID registrado");
+                txtId.setText("");
+                txtId.grabFocus();
+            }
+        }
+        
+    }
+            
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtId.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9]{5})+") ) {
+                    JOptionPane.showMessageDialog(this,"ID incorrecto");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }else{
+                    buscarID(content);
+                    
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtIdFocusLost
+
+    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
+        if (!evt.isTemporary()) {
+            String content = txtTelefono.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9]{9})+")) {
+                    JOptionPane.showMessageDialog(this,"Telefono incorrecto");
+                    txtTelefono.setText("");
+                    txtTelefono.grabFocus();
+                }
+            }
+        }
+    }//GEN-LAST:event_txtTelefonoFocusLost
+
+    private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
+        if (!evt.isTemporary()) {
+            String content = txtNombre.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([A-Z a-z])+")) {
+                    JOptionPane.showMessageDialog(this,"Nombre incorrecto");
+                    txtNombre.setText("");
+                    txtNombre.grabFocus();
+                }
+            }
+            
+        }
+    }//GEN-LAST:event_txtNombreFocusLost
 
     /**
      * @param args the command line arguments
