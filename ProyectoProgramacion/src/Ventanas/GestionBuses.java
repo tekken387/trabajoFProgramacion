@@ -264,24 +264,26 @@ public class GestionBuses extends javax.swing.JFrame {
         int pos=cuentaBuses();
         
         if(capacidad.matches("([0-9]+)") && id.matches("([0-9]+)")){
-            b.setCapacidad(Integer.parseInt(capacidad));
-            b.setId(Integer.parseInt(id));
-            b.setDestino((Destino)cmbDestinos.getSelectedItem());
-            b.setTipoServicio((TipoServicio)cmbTServicios.getSelectedItem());
-            getLtaBuses()[pos]=b;
-            
-            //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-            p.setLtaBuses(getLtaBuses());
-            JOptionPane.showMessageDialog(this,"Bus guardado correctamente....");
-            
-            txtId.setText("");
-            txtId.setEnabled(false);
-            txtCapacidad.setEnabled(false);
-            txtCapacidad.setText("");
-            cmbDestinos.setEnabled(false);
-            cmbTServicios.setEnabled(false);
-            btnGuardar.setEnabled(false);
-            btnNuevo.setEnabled(true);
+            if(Integer.parseInt(capacidad)<=60){
+                b.setCapacidad(Integer.parseInt(capacidad));
+                b.setId(Integer.parseInt(id));
+                b.setDestino((Destino)cmbDestinos.getSelectedItem());
+                b.setTipoServicio((TipoServicio)cmbTServicios.getSelectedItem());
+                getLtaBuses()[pos]=b;
+
+                //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
+                p.setLtaBuses(getLtaBuses());
+                JOptionPane.showMessageDialog(this,"Bus guardado correctamente....");
+
+                txtId.setText("");
+                txtId.setEnabled(false);
+                txtCapacidad.setEnabled(false);
+                txtCapacidad.setText("");
+                cmbDestinos.setEnabled(false);
+                cmbTServicios.setEnabled(false);
+                btnGuardar.setEnabled(false);
+                btnNuevo.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
