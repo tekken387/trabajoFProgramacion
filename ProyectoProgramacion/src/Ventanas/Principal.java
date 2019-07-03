@@ -260,7 +260,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4ActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
-         Venta v=new Venta();
+        Venta v=new Venta();
         v.setVisible(true);
         v.setLtaClientes(getLtaClientes());
         v.setDefaultCloseOperation(Venta.DISPOSE_ON_CLOSE);

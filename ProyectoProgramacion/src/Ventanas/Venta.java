@@ -5,7 +5,12 @@
  */
 package Ventanas;
 
+import Clases.Bus;
 import Clases.Cliente;
+import Clases.Destino;
+import Clases.TipoServicio;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,6 +19,13 @@ import Clases.Cliente;
 public class Venta extends javax.swing.JFrame {
 
     private Cliente[] ltaClientes=null;
+    private Bus[] ltaBuses=null;
+    private TipoServicio[] ltaServicios=null;
+    private Destino[] ltaDestinos=null;
+    Principal p=new Principal();
+    DefaultTableModel tableModel;
+    DefaultComboBoxModel<Destino> modelComboDestinos;
+    DefaultComboBoxModel<TipoServicio> modelComboServicios;
     
     public Cliente[] getLtaClientes() {
         return ltaClientes;
@@ -23,8 +35,37 @@ public class Venta extends javax.swing.JFrame {
         this.ltaClientes = ltaClientes;
     }
     
+     public Bus[] getLtaBuses() {
+        return ltaBuses;
+    }
+
+    public void setLtaBuses(Bus[] ltaBuses) {
+        this.ltaBuses = ltaBuses;
+    }
+
+    public TipoServicio[] getLtaServicios() {
+        return ltaServicios;
+    }
+
+    public void setLtaServicios(TipoServicio[] ltaServicios) {
+        this.ltaServicios = ltaServicios;
+    }
+
+    public Destino[] getLtaDestinos() {
+        return ltaDestinos;
+    }
+
+    public void setLtaDestinos(Destino[] ltaDestinos) {
+        this.ltaDestinos = ltaDestinos;
+    }
+    
     public Venta() {
         initComponents();
+        tableModel = (DefaultTableModel) tableBuses.getModel();  
+        modelComboDestinos=(DefaultComboBoxModel)cmbDestinos.getModel();
+        modelComboServicios=(DefaultComboBoxModel)cmbTServicios.getModel();
+        cmbDestinos.setModel(modelComboDestinos);
+        cmbTServicios.setModel(modelComboServicios);
     }
 
     /**
@@ -40,18 +81,18 @@ public class Venta extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        btnNuevaventa = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtNombrecli = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnRegistrocli = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cmbDestinos = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        cmbTServicios = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableBuses = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -73,25 +114,40 @@ public class Venta extends javax.swing.JFrame {
 
         jLabel2.setText("Id Cliente");
 
-        jTextField1.setEnabled(false);
+        txtId.setEnabled(false);
 
-        jButton1.setText("Nueva Venta");
+        btnNuevaventa.setText("Nueva Venta");
+        btnNuevaventa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaventaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Nombre");
 
-        jTextField2.setEditable(false);
-        jTextField2.setEnabled(false);
+        txtNombrecli.setEditable(false);
+        txtNombrecli.setEnabled(false);
 
-        jButton2.setText("?");
-        jButton2.setEnabled(false);
+        btnBuscar.setText("?");
+        btnBuscar.setEnabled(false);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Registrar Cliente");
+        btnRegistrocli.setText("Registrar Cliente");
+        btnRegistrocli.setEnabled(false);
 
         jLabel4.setText("Destino");
 
+        cmbDestinos.setEnabled(false);
+
         jLabel5.setText("Tipo Servicio");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        cmbTServicios.setEnabled(false);
+
+        tableBuses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -99,7 +155,7 @@ public class Venta extends javax.swing.JFrame {
                 "IdBus", "Capacidad", "Capadidad Disponible", "Destino", "Tipo Servicio"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tableBuses);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,10 +172,10 @@ public class Venta extends javax.swing.JFrame {
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                    .addComponent(jTextField2))
+                                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                                    .addComponent(txtNombrecli))
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2))
+                                .addComponent(btnBuscar))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,16 +185,16 @@ public class Venta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
-                                .addComponent(jButton3))
+                                .addComponent(btnRegistrocli))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 106, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(cmbTServicios, javax.swing.GroupLayout.Alignment.LEADING, 0, 106, Short.MAX_VALUE)
+                                .addComponent(cmbDestinos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(208, 208, 208)
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
+                            .addComponent(btnNuevaventa))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -150,25 +206,25 @@ public class Venta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                    .addComponent(btnNuevaventa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar)
+                    .addComponent(btnRegistrocli))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombrecli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbTServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -176,6 +232,23 @@ public class Venta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevaventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaventaActionPerformed
+        txtId.setEnabled(true);
+        btnBuscar.setEnabled(true);
+    }//GEN-LAST:event_btnNuevaventaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String id=txtId.getText();
+        
+        for(Cliente c:getLtaClientes()){
+            if(c.getId()==Integer.parseInt(id)){
+                txtNombrecli.setText(c.getNombre());
+            }
+        }
+        
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,11 +286,11 @@ public class Venta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnNuevaventa;
+    private javax.swing.JButton btnRegistrocli;
+    private javax.swing.JComboBox cmbDestinos;
+    private javax.swing.JComboBox cmbTServicios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -226,8 +299,10 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tableBuses;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombrecli;
     // End of variables declaration//GEN-END:variables
+
+   
 }
