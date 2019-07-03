@@ -44,6 +44,8 @@ public class GestionTServicios extends javax.swing.JFrame {
         btnListar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableServicios = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,6 +55,11 @@ public class GestionTServicios extends javax.swing.JFrame {
         jLabel2.setText("Id:");
 
         txtId.setEnabled(false);
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
 
         jLabel3.setText("Descripcion:");
 
@@ -85,11 +92,11 @@ public class GestionTServicios extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Descripcion"
+                "Id", "Descripcion", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -97,6 +104,10 @@ public class GestionTServicios extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tableServicios);
+
+        jLabel4.setText("Precio:");
+
+        txtPrecio.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,11 +122,13 @@ public class GestionTServicios extends javax.swing.JFrame {
                         .addGap(77, 77, 77)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                            .addComponent(txtId)))
+                            .addComponent(txtId)
+                            .addComponent(txtPrecio)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel1))
@@ -141,14 +154,18 @@ public class GestionTServicios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnGuardar)
                     .addComponent(btnListar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -164,12 +181,19 @@ public class GestionTServicios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"No hay Servicios para mostrar");
         }else{
             for(TipoServicio t:ltaServicios){
-                Object[] data={t.getId(),t.getDescripcion()};
+                Object[] data={t.getId(),t.getDescripcion(),t.getPrecio()};
                 tableModel.addRow(data);
             }
 
         }
         
+        
+        txtId.setText("");
+        txtDescripcion.setText("");
+        txtId.setEnabled(false);
+        txtDescripcion.setEnabled(false);
+        txtPrecio.setEnabled(false);
+        txtPrecio.setText("");
         btnGuardar.setEnabled(false);
         btnNuevo.setEnabled(true);
     }//GEN-LAST:event_btnListarActionPerformed
@@ -177,10 +201,12 @@ public class GestionTServicios extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         btnNuevo.setEnabled(false);
         btnGuardar.setEnabled(true);
+        
         if(this.cuentaServicios()<ltaServicios.length){
             limpiaTxt();
             txtDescripcion.setEnabled(true);
             txtId.setEnabled(true);
+            txtPrecio.setEnabled(true);
         }else{
             JOptionPane.showMessageDialog(this,"Se alcanzo el tamaño maximo de servicios permitidos");
         }
@@ -190,12 +216,14 @@ public class GestionTServicios extends javax.swing.JFrame {
         TipoServicio t=new TipoServicio();
         char descripcion=txtDescripcion.getText().charAt(0);
         String id=txtId.getText();
+        String precio=txtPrecio.getText();
 
         int pos=cuentaServicios();
         
-        if(!"".equals(descripcion) && id.matches("([0-9]+)")){
+        if(!"".equals(descripcion) && id.matches("([0-9]+)") && precio.matches("([0-9]+)")){
             t.setDescripcion(descripcion);
             t.setId(Integer.parseInt(id));
+            t.setPrecio(Double.parseDouble(precio));
             ltaServicios[pos]=t;
             
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
@@ -206,10 +234,22 @@ public class GestionTServicios extends javax.swing.JFrame {
             txtDescripcion.setText("");
             txtId.setEnabled(false);
             txtDescripcion.setEnabled(false);
+            txtPrecio.setEnabled(false);
+            txtPrecio.setText("");
             btnGuardar.setEnabled(false);
             btnNuevo.setEnabled(true);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+         if (!evt.isTemporary()) {
+          String content = txtId.getText();
+          if (!content.matches("([0-9]+)") ) {
+            JOptionPane.showMessageDialog(this,"ID invalid");
+            txtId.setText("");
+          }
+        }
+    }//GEN-LAST:event_txtIdFocusLost
 
     public int cuentaServicios(){
         int nservicios=0;
@@ -264,10 +304,12 @@ public class GestionTServicios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableServicios;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 
     public TipoServicio[] getLtaServicios() {

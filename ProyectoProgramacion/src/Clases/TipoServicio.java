@@ -12,6 +12,7 @@ package Clases;
 public class TipoServicio {
     private int id;
     private char descripcion;
+    private double precio;
 
     public int getId() {
         return id;
@@ -32,5 +33,13 @@ public class TipoServicio {
     @Override
     public String toString(){
         return String.valueOf(getDescripcion());
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }

@@ -172,6 +172,10 @@ public class GestionDestinos extends javax.swing.JFrame {
 
         }
         
+        txtId.setText("");
+        txtDescripcion.setText("");
+        txtId.setEnabled(false);
+        txtDescripcion.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnNuevo.setEnabled(true);
     }//GEN-LAST:event_btnListarActionPerformed
