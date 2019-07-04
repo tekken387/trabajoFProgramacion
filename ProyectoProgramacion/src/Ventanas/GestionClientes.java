@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class GestionClientes extends javax.swing.JFrame {
 
    private Cliente[] ltaClientes=null;
-   Principal p=new Principal();
+   private Principal p;
    DefaultTableModel tableModel;
    int proceso=0; //0 nada - 1 guardar nuevo - 2 actualizar
    
@@ -307,7 +307,7 @@ public class GestionClientes extends javax.swing.JFrame {
             ltaClientes[pos]=c;
             
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-            p.setLtaClientes(ltaClientes);
+            getP().setLtaClientes(ltaClientes);
             JOptionPane.showMessageDialog(this,"Cliente guardado correctamente....");
             
             txtDireccion.setText("");
@@ -340,7 +340,7 @@ public class GestionClientes extends javax.swing.JFrame {
 
 
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-            p.setLtaClientes(ltaClientes);
+            getP().setLtaClientes(ltaClientes);
             JOptionPane.showMessageDialog(this,"Cliente actualizado correctamente....");
 
             this.limpiaTxt();
@@ -369,10 +369,14 @@ public class GestionClientes extends javax.swing.JFrame {
         
         ltaClientes[ltaClientes.length-1]=null;
         tableModel.setRowCount(0);
-        p.setLtaClientes(ltaClientes);
+        getP().setLtaClientes(ltaClientes);
         JOptionPane.showMessageDialog(this,"Se Elimino Correctamente...");
         btnEliminar.setEnabled(false);
         btnEditar.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtId.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtTelefono.setEnabled(false);
     }
     
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -434,6 +438,11 @@ public class GestionClientes extends javax.swing.JFrame {
         
         btnEliminar.setEnabled(false);
         btnEditar.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtId.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtTelefono.setEnabled(false);
+        
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void tableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseClicked
@@ -639,4 +648,12 @@ public class GestionClientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+    public Principal getP() {
+        return p;
+    }
+
+    public void setP(Principal p) {
+        this.p = p;
+    }
 }

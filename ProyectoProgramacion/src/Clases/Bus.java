@@ -60,6 +60,34 @@ public class Bus {
         
         return cli;
     }
+    
+    public int espacioDisponible(){
+       int restante=0;
+       if(pasajeros!=null){
+           for (Cliente pasajero : pasajeros) {
+               if (pasajero == null) {
+                   restante++;
+               }
+           }
+      }else{
+           restante=getCapacidad();
+       }
+       
+       return restante;
+    }
+    
+    public int pos(){
+        int pos=0;
+       if(pasajeros!=null){
+           for (Cliente pasajero : pasajeros) {
+               if (pasajero != null) {
+                   pos++;
+               }
+           }
+       }
+       
+       return pos;
+    }
 
     public Destino getDestino() {
         return destino;

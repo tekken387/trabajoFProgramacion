@@ -17,7 +17,7 @@ public class GestionTServicios extends javax.swing.JFrame {
 
 
     private TipoServicio[] ltaServicios=null;
-   Principal p=new Principal();
+   private Principal p;
    DefaultTableModel tableModel;
    
     public GestionTServicios() {
@@ -227,7 +227,7 @@ public class GestionTServicios extends javax.swing.JFrame {
             ltaServicios[pos]=t;
             
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-            p.setLtaServicios(ltaServicios);
+            getP().setLtaServicios(ltaServicios);
             JOptionPane.showMessageDialog(this,"Servicio guardado correctamente....");
             
             txtId.setText("");
@@ -323,5 +323,13 @@ public class GestionTServicios extends javax.swing.JFrame {
     private void limpiaTxt() {
         txtDescripcion.setText("");
         txtId.setText("");
+    }
+
+    public Principal getP() {
+        return p;
+    }
+
+    public void setP(Principal p) {
+        this.p = p;
     }
 }
