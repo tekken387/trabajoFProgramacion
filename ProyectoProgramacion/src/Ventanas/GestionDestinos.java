@@ -17,7 +17,7 @@ public class GestionDestinos extends javax.swing.JFrame {
 
 
     private Destino[] ltaDestinos=null;
-   Principal p=new Principal();
+   private Principal p;
    DefaultTableModel tableModel;
    
     public GestionDestinos() {
@@ -205,7 +205,7 @@ public class GestionDestinos extends javax.swing.JFrame {
             getLtaDestinos()[pos]=d;
             
             //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-            p.setLtaDestinos(getLtaDestinos());
+            getP().setLtaDestinos(getLtaDestinos());
             JOptionPane.showMessageDialog(this,"Destino guardado correctamente....");
             
             txtId.setText("");
@@ -290,5 +290,13 @@ public class GestionDestinos extends javax.swing.JFrame {
 
     public void setLtaDestinos(Destino[] ltaDestinos) {
         this.ltaDestinos = ltaDestinos;
+    }
+
+    public Principal getP() {
+        return p;
+    }
+
+    public void setP(Principal p) {
+        this.p = p;
     }
 }

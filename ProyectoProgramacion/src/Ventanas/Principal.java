@@ -8,9 +8,8 @@ package Ventanas;
 import Clases.Bus;
 import Clases.Cliente;
 import Clases.Destino;
+import Clases.Pasaje;
 import Clases.TipoServicio;
-import java.awt.HeadlessException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +22,7 @@ public class Principal extends javax.swing.JFrame {
     private Bus[] ltaBuses=null;
     private Destino[] ltaDestinos=null;
     private TipoServicio[] ltaServicios=null;
+    private Pasaje[] ltapasajes=null;
     private int nclientes=0;
     
     public Cliente[] getLtaClientes() {
@@ -245,9 +245,10 @@ public class Principal extends javax.swing.JFrame {
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         if(ltaClientes!=null){
             GestionClientes gc=new GestionClientes();
-            gc.setVisible(true);
+            gc.setP(this);
             gc.setLtaClientes(getLtaClientes());
             gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
+            gc.setVisible(true);
         }else {
             JOptionPane.showMessageDialog(this, "Clientes no Inicializados");
         } 
@@ -258,33 +259,41 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4ActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
+
         Venta v=new Venta();
-        v.setVisible(true);
+        v.setP(this);
         v.setLtaClientes(getLtaClientes());
+        v.setLtaBuses(getLtaBuses());
+        v.setLtaDestinos(getLtaDestinos());
+        v.setLtaServicios(getLtaServicios());
         v.setDefaultCloseOperation(Venta.DISPOSE_ON_CLOSE);
+        v.setVisible(true);
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         GestionTServicios gts = new GestionTServicios();
-        gts.setVisible(true);
+        gts.setP(this);
         gts.setLtaServicios(getLtaServicios());
         gts.setDefaultCloseOperation(GestionTServicios.DISPOSE_ON_CLOSE);
+        gts.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         GestionDestinos gd=new GestionDestinos();
-        gd.setVisible(true);
+        gd.setP(this);
         gd.setLtaDestinos(getLtaDestinos());
         gd.setDefaultCloseOperation(GestionDestinos.DISPOSE_ON_CLOSE);
+        gd.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         GestionBuses gb=new GestionBuses();
-        gb.setVisible(true);
+        gb.setP(this);
         gb.setLtaBuses(getLtaBuses());
         gb.setLtaDestinos(getLtaDestinos());
         gb.setLtaServicios(getLtaServicios());
         gb.setDefaultCloseOperation(GestionBuses.DISPOSE_ON_CLOSE);
+        gb.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -336,6 +345,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JLabel lblclientes;
     // End of variables declaration//GEN-END:variables
+
+    public Pasaje[] getLtapasajes() {
+        return ltapasajes;
+    }
+
+    public void setLtapasajes(Pasaje[] ltapasajes) {
+        this.ltapasajes = ltapasajes;
+    }
 
     
 

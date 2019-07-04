@@ -8,7 +8,9 @@ package Ventanas;
 import Clases.Bus;
 import Clases.Cliente;
 import Clases.Destino;
+import Clases.Pasaje;
 import Clases.TipoServicio;
+import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,15 +21,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Venta extends javax.swing.JFrame {
 
-    private Cliente[] ltaClientes=null;
-    private Bus[] ltaBuses=null;
-    private TipoServicio[] ltaServicios=null;
-    private Destino[] ltaDestinos=null;
-    Principal p=new Principal();
-    DefaultTableModel tableModel;
+    private Cliente[] ltaClientes;
+    private Bus[] ltaBuses;
+    private TipoServicio[] ltaServicios;
+    private Destino[] ltaDestinos;
+    private Pasaje[] ltapasajes;
+    private Principal p;
+    DefaultTableModel tableModelBuses;
+    DefaultTableModel tableModelPasajeros;
     DefaultComboBoxModel<Destino> modelComboDestinos;
     DefaultComboBoxModel<TipoServicio> modelComboServicios;
-    
+    Cliente pasajero=null;
+    Bus busdestino=null;
+    int n=0;
     public Cliente[] getLtaClientes() {
         return ltaClientes;
     }
@@ -62,13 +68,27 @@ public class Venta extends javax.swing.JFrame {
     
     public Venta() {
         initComponents();
-        tableModel = (DefaultTableModel) tableBuses.getModel();  
+        tableModelBuses = (DefaultTableModel) tableBuses.getModel();  
+        tableModelPasajeros = (DefaultTableModel) tableClientes.getModel(); 
         modelComboDestinos=(DefaultComboBoxModel)cmbDestinos.getModel();
         modelComboServicios=(DefaultComboBoxModel)cmbTServicios.getModel();
         cmbDestinos.setModel(modelComboDestinos);
         cmbTServicios.setModel(modelComboServicios);
+        
     }
 
+    public int sumaPasajeros(){
+        int suma=0;
+        if(getLtaBuses()!=null){
+            for(Bus b:getLtaBuses()){
+                if(b!=null){
+                    suma+=b.getCapacidad();
+                }
+            }
+        }
+        return suma;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,6 +114,15 @@ public class Venta extends javax.swing.JFrame {
         cmbTServicios = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableBuses = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableClientes = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnListar = new javax.swing.JButton();
+        btnSeleccionBus = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        txtSeleccionbus = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,6 +138,11 @@ public class Venta extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("VENTA DE PASAJES");
@@ -160,51 +194,124 @@ public class Venta extends javax.swing.JFrame {
             new String [] {
                 "IdBus", "Capacidad", "Capadidad Disponible", "Destino", "Tipo Servicio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableBuses.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableBusesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableBuses);
+
+        tableClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre"
+            }
+        ));
+        jScrollPane3.setViewportView(tableClientes);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("PASAJEROS");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("BUSES");
+
+        btnGuardar.setText("Guardar Venta");
+        btnGuardar.setEnabled(false);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnListar.setText("Listar Buses");
+        btnListar.setEnabled(false);
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
+
+        btnSeleccionBus.setText("Seleccionar Bus");
+        btnSeleccionBus.setEnabled(false);
+        btnSeleccionBus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionBusActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Bus Selecionado:");
+
+        txtSeleccionbus.setText(".");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnListar)
+                    .addComponent(btnSeleccionBus))
+                .addGap(58, 58, 58)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cmbTServicios, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbDestinos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addGap(40, 40, 40))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                    .addComponent(txtNombrecli))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4))
-                                .addGap(20, 20, 20)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(btnRegistrocli))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cmbTServicios, javax.swing.GroupLayout.Alignment.LEADING, 0, 106, Short.MAX_VALUE)
-                                .addComponent(cmbDestinos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(208, 208, 208)
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevaventa))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                            .addComponent(txtNombrecli))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnRegistrocli))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(208, 208, 208)
+                        .addComponent(jLabel1)
+                        .addGap(107, 107, 107)
+                        .addComponent(btnNuevaventa))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(262, 262, 262)
+                        .addComponent(jLabel7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtSeleccionbus)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +320,7 @@ public class Venta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnNuevaventa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,16 +330,32 @@ public class Venta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtNombrecli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cmbDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cmbTServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(cmbDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnListar)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(cmbTServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSeleccionBus)
+                            .addComponent(btnGuardar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtSeleccionbus))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -242,19 +365,23 @@ public class Venta extends javax.swing.JFrame {
     private void btnNuevaventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaventaActionPerformed
         txtId.setEnabled(true);
         btnBuscar.setEnabled(true);
+        btnNuevaventa.setEnabled(false);
     }//GEN-LAST:event_btnNuevaventaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        setLtaClientes(p.getLtaClientes());
+        //setLtaClientes(p.getLtaClientes());
         
         String id=txtId.getText();
         boolean b=false;
         
         if(getLtaClientes()!=null){
             for(Cliente c:getLtaClientes()){
-                if(c.getId()==Integer.parseInt(id)){
-                    txtNombrecli.setText(c.getNombre());
-                    b=true;
+                if(c!=null){
+                    if(c.getId()==Integer.parseInt(id)){
+                        txtNombrecli.setText(c.getNombre());
+                        pasajero=c;
+                        b=true;
+                    }
                 }
             }
         }
@@ -262,17 +389,205 @@ public class Venta extends javax.swing.JFrame {
         if(!b){
             JOptionPane.showMessageDialog(this,"Cliente no registrado");
             btnRegistrocli.setEnabled(true);
+        }else{
+            cmbDestinos.setEnabled(true);
+            cmbTServicios.setEnabled(true);
+            btnListar.setEnabled(true);
+            btnSeleccionBus.setEnabled(true);
+            cargaDestinos();
+            cargaServicios();
         }
-        
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void cargaDestinos(){
+        if(cuentaDestinos()<1){
+            JOptionPane.showMessageDialog(this,"No hay Destinos para mostrar");
+        }else{
+            for(Destino d:getLtaDestinos()){
+                    modelComboDestinos.addElement(d);
+            }
+        }
+    }
+    
+    private void cargaServicios(){
+        
+        if(cuentaServicios()<1){
+            JOptionPane.showMessageDialog(this,"No hay Servicios para mostrar");
+        }else{
+            for(TipoServicio t:getLtaServicios()){
+                    modelComboServicios.addElement(t);
+            }
+        }
+    }
+    
+    public int cuentaBuses(){
+        int nbuses=0;
+        for (int i = 0; i < getLtaBuses().length; i++) {
+            if(getLtaBuses()[i]!=null){
+                nbuses++;
+            }
+        }
+        return nbuses;
+    }
+    
+    public int cuentaDestinos(){
+        int ndestinos=0;
+        for (int i = 0; i < getLtaDestinos().length; i++) {
+            if(getLtaDestinos()[i]!=null){
+                ndestinos++;
+            }
+        }
+        return ndestinos;
+    }
+    
+    public int cuentaServicios(){
+        int nservicios=0;
+        for (int i = 0; i < getLtaServicios().length; i++) {
+            if(getLtaServicios()[i]!=null){
+                nservicios++;
+            }
+        }
+        return nservicios;
+    }
+    
+    
     private void btnRegistrocliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrocliActionPerformed
             GestionClientes gc=new GestionClientes();
-            gc.setVisible(true);
-            gc.setLtaClientes(getLtaClientes());
+            gc.setP(p);
+            gc.setLtaClientes(getP().getLtaClientes());
             gc.setDefaultCloseOperation(GestionClientes.DISPOSE_ON_CLOSE);
+            gc.setVisible(true);
     }//GEN-LAST:event_btnRegistrocliActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if(pasajero!=null){
+            if(busdestino!=null){
+                boolean b=false;
+                
+                for(Cliente c:busdestino.getPasajeros()){
+                    if(c!=null){
+                        if(c==pasajero){
+                            b=true;
+                        }
+                    }
+                }
+                
+                if(b){
+                    JOptionPane.showMessageDialog(this,"El cliente ya se encuentra en este bus");
+                }else{
+                    
+                    Pasaje p=new Pasaje();
+                    p.setBus(busdestino);
+                    p.setCliente(pasajero);
+                    
+                    for(Pasaje p1:ltapasajes){
+                        if(p1==null){
+                            p1=p;
+                            break;
+                        }
+                    }
+                    
+                    
+                    int pos=busdestino.pos();
+                    
+                    busdestino.getPasajeros()[pos]=pasajero;
+
+                    
+                    btnListar.setEnabled(false);
+                    btnSeleccionBus.setEnabled(false);
+                    btnGuardar.setEnabled(false);
+                    txtSeleccionbus.setText("");
+                    txtNombrecli.setText("");
+                    txtId.setText("");
+                    txtId.setEnabled(false);
+                    btnBuscar.setEnabled(false);
+                    btnRegistrocli.setEnabled(false);
+                    btnNuevaventa.setEnabled(true);
+                    cmbDestinos.setEnabled(false);
+                    cmbTServicios.setEnabled(false);
+                    tableClientes.clearSelection();
+                    tableBuses.clearSelection();
+                    tableModelBuses.setRowCount(0);
+                    tableModelPasajeros.setRowCount(0);
+                    JOptionPane.showMessageDialog(this,"Venta registrada correctamente...");
+                }
+                
+            }else{
+                JOptionPane.showMessageDialog(this,"No hay Bus destino seleccionado");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"No hay pasajero seleccionado");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        
+        tableClientes.clearSelection();
+        tableBuses.clearSelection();
+        tableModelBuses.setRowCount(0);
+        tableModelPasajeros.setRowCount(0);
+        
+        for(Bus b:getLtaBuses()){
+            if(b!=null){
+                if(((Destino)cmbDestinos.getSelectedItem())==b.getDestino() && ((TipoServicio)cmbTServicios.getSelectedItem())==b.getTipoServicio()){
+                    Object[] data={b.getId(),b.getCapacidad(),b.espacioDisponible(),b.getDestino().getDescripcion(),b.getTipoServicio().getDescripcion()};
+                    tableModelBuses.addRow(data);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnListarActionPerformed
+
+    private void tableBusesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBusesMouseClicked
+        DefaultTableModel data = (DefaultTableModel)tableBuses.getModel();
+        
+       int fila = tableBuses.getSelectedRow();
+       
+       if(fila!=-1){
+           int idbus =Integer.parseInt(data.getValueAt(fila, 0).toString());
+           
+           for(Bus b:getLtaBuses()){
+               if(b.getId()==idbus){
+                   for(Cliente c:b.getPasajeros()){
+                       if(c!=null){
+                            Object[] dataCli={c.getId(),c.getNombre()};
+                            tableModelPasajeros.addRow(dataCli);
+                       }
+                   }
+                   break;
+               }
+           }
+
+       }
+       
+        
+       
+    }//GEN-LAST:event_tableBusesMouseClicked
+
+    private void btnSeleccionBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionBusActionPerformed
+        DefaultTableModel data = (DefaultTableModel)tableBuses.getModel();
+        
+       int fila = tableBuses.getSelectedRow();
+       
+       if(fila!=-1){
+           int idbus =Integer.parseInt(data.getValueAt(fila, 0).toString());
+           txtSeleccionbus.setText("Id-> "+idbus);
+           for(Bus b:getLtaBuses()){
+               if(b.getId()==idbus){
+                   busdestino=b;
+                   btnGuardar.setEnabled(true);
+                   break;
+               }
+           }
+       }else{
+           JOptionPane.showMessageDialog(this,"No hay bus seleccionado");
+       }
+    }//GEN-LAST:event_btnSeleccionBusActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        ltapasajes=new Pasaje[sumaPasajeros()];
+        n=ltapasajes.length;
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -311,8 +626,11 @@ public class Venta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnListar;
     private javax.swing.JButton btnNuevaventa;
     private javax.swing.JButton btnRegistrocli;
+    private javax.swing.JButton btnSeleccionBus;
     private javax.swing.JComboBox cmbDestinos;
     private javax.swing.JComboBox cmbTServicios;
     private javax.swing.JLabel jLabel1;
@@ -320,13 +638,35 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tableBuses;
+    private javax.swing.JTable tableClientes;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombrecli;
+    private javax.swing.JLabel txtSeleccionbus;
     // End of variables declaration//GEN-END:variables
+
+    public Principal getP() {
+        return p;
+    }
+
+    public void setP(Principal p) {
+        this.p = p;
+    }
+
+    public Pasaje[] getLtapasajes() {
+        return ltapasajes;
+    }
+
+    public void setLtapasajes(Pasaje[] ltapasajes) {
+        this.ltapasajes = ltapasajes;
+    }
 
    
 }

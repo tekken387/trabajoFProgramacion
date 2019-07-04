@@ -6,6 +6,7 @@
 package Ventanas;
 
 import Clases.Bus;
+import Clases.Cliente;
 import Clases.Destino;
 import Clases.TipoServicio;
 import javax.swing.DefaultComboBoxModel;
@@ -23,7 +24,7 @@ public class GestionBuses extends javax.swing.JFrame {
     private Bus[] ltaBuses=null;
     private TipoServicio[] ltaServicios=null;
     private Destino[] ltaDestinos=null;
-    Principal p=new Principal();
+    private Principal p;
     DefaultTableModel tableModel;
     DefaultComboBoxModel<Destino> modelComboDestinos;
     DefaultComboBoxModel<TipoServicio> modelComboServicios;
@@ -237,6 +238,10 @@ public class GestionBuses extends javax.swing.JFrame {
         
         btnGuardar.setEnabled(false);
         btnNuevo.setEnabled(true);
+        txtCapacidad.setEnabled(false);
+        txtId.setEnabled(false);
+        txtCapacidad.setText("");
+        txtId.setText("");
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -269,10 +274,11 @@ public class GestionBuses extends javax.swing.JFrame {
                 b.setId(Integer.parseInt(id));
                 b.setDestino((Destino)cmbDestinos.getSelectedItem());
                 b.setTipoServicio((TipoServicio)cmbTServicios.getSelectedItem());
+                b.setPasajeros(new Cliente[Integer.parseInt(capacidad)]);
                 getLtaBuses()[pos]=b;
 
                 //lo guardamos en la ventana principal para poder manejarlo en cualquier ventana  
-                p.setLtaBuses(getLtaBuses());
+                getP().setLtaBuses(getLtaBuses());
                 JOptionPane.showMessageDialog(this,"Bus guardado correctamente....");
 
                 txtId.setText("");
@@ -283,6 +289,8 @@ public class GestionBuses extends javax.swing.JFrame {
                 cmbTServicios.setEnabled(false);
                 btnGuardar.setEnabled(false);
                 btnNuevo.setEnabled(true);
+            }else{
+                JOptionPane.showMessageDialog(this,"Capacidad no puede ser mayor a 60....");
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -409,5 +417,13 @@ public class GestionBuses extends javax.swing.JFrame {
 
     public void setLtaBuses(Bus[] ltaBuses) {
         this.ltaBuses = ltaBuses;
+    }
+
+    public Principal getP() {
+        return p;
+    }
+
+    public void setP(Principal p) {
+        this.p = p;
     }
 }
