@@ -34,6 +34,8 @@ public class Venta extends javax.swing.JFrame {
     Cliente pasajero=null;
     Bus busdestino=null;
     int n=0;
+    private int nt=0;
+    
     public Cliente[] getLtaClientes() {
         return ltaClientes;
     }
@@ -74,6 +76,7 @@ public class Venta extends javax.swing.JFrame {
         modelComboServicios=(DefaultComboBoxModel)cmbTServicios.getModel();
         cmbDestinos.setModel(modelComboDestinos);
         cmbTServicios.setModel(modelComboServicios);
+        
         
     }
 
@@ -123,6 +126,8 @@ public class Venta extends javax.swing.JFrame {
         btnSeleccionBus = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtSeleccionbus = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lblnt = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -272,6 +277,10 @@ public class Venta extends javax.swing.JFrame {
 
         txtSeleccionbus.setText(".");
 
+        jLabel9.setText("NT:");
+
+        lblnt.setText(".");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -295,24 +304,6 @@ public class Venta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                            .addComponent(txtNombrecli))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnRegistrocli))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(jLabel1)
-                        .addGap(107, 107, 107)
-                        .addComponent(btnNuevaventa))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -328,7 +319,32 @@ public class Venta extends javax.swing.JFrame {
                         .addGap(131, 131, 131)
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSeleccionbus)))
+                        .addComponent(txtSeleccionbus))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(208, 208, 208)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                                    .addComponent(txtNombrecli))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBuscar)
+                                .addGap(32, 32, 32)
+                                .addComponent(btnRegistrocli)))
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNuevaventa)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblnt)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -338,12 +354,19 @@ public class Venta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnNuevaventa))
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnRegistrocli))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnRegistrocli)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblnt))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -495,13 +518,13 @@ public class Venta extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this,"El cliente ya se encuentra en este bus");
                 }else{
                     
-                    Pasaje p=new Pasaje();
-                    p.setBus(busdestino);
-                    p.setCliente(pasajero);
+                    Pasaje pa=new Pasaje();
+                    pa.setBus(busdestino);
+                    pa.setCliente(pasajero);
                     
                     for(Pasaje p1:ltapasajes){
                         if(p1==null){
-                            p1=p;
+                            p1=pa;
                             break;
                         }
                     }
@@ -529,6 +552,11 @@ public class Venta extends javax.swing.JFrame {
                     tableModelBuses.setRowCount(0);
                     tableModelPasajeros.setRowCount(0);
                     JOptionPane.showMessageDialog(this,"Venta registrada correctamente...");
+                    JOptionPane.showMessageDialog(this,"El monto a pagar es: "+pa.getBus().getTipoServicio().getPrecio());
+                    
+                    nt++;
+                    p.setNt(getNt());
+                    lblnt.setText(String.valueOf(nt));
                 }
                 
             }else{
@@ -611,6 +639,8 @@ public class Venta extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         ltapasajes=new Pasaje[sumaPasajeros()];
         n=ltapasajes.length;
+        nt=p.getNt();
+        lblnt.setText(String.valueOf(nt));
     }//GEN-LAST:event_formComponentShown
 
     private void btnListarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnListarFocusLost
@@ -682,10 +712,12 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblnt;
     private javax.swing.JTable tableBuses;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTextField txtId;
@@ -707,6 +739,14 @@ public class Venta extends javax.swing.JFrame {
 
     public void setLtapasajes(Pasaje[] ltapasajes) {
         this.ltapasajes = ltapasajes;
+    }
+
+    public int getNt() {
+        return nt;
+    }
+
+    public void setNt(int nt) {
+        this.nt = nt;
     }
 
    

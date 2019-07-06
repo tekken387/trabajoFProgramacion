@@ -24,6 +24,7 @@ public class Principal extends javax.swing.JFrame {
     private TipoServicio[] ltaServicios=null;
     private Pasaje[] ltapasajes=null;
     private int nclientes=0;
+    private int nt=0;
     
     public Cliente[] getLtaClientes() {
         return ltaClientes;
@@ -352,6 +353,14 @@ public class Principal extends javax.swing.JFrame {
 
     public void setLtapasajes(Pasaje[] ltapasajes) {
         this.ltapasajes = ltapasajes;
+    }
+
+    public int getNt() {
+        return nt;
+    }
+
+    public void setNt(int nt) {
+        this.nt = nt;
     }
 
     

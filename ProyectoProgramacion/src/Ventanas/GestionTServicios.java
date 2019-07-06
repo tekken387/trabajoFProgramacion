@@ -286,7 +286,7 @@ public class GestionTServicios extends javax.swing.JFrame {
         if (!evt.isTemporary()) {
           String content = txtPrecio.getText();
             if(!"".equals(content)){
-                if (!content.matches("([0-9]+.[0-9]+)") ) {
+                if (!content.matches("([0-9]+)(.?[0-9]+)?") ) {
                     JOptionPane.showMessageDialog(this,"Ingrese precio en este formado: ***.**");
                     txtPrecio.setText("");
                     txtPrecio.grabFocus();
