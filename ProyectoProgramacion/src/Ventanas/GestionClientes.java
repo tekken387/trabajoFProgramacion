@@ -73,6 +73,8 @@ public class GestionClientes extends javax.swing.JFrame {
         btnListar = new javax.swing.JButton();
         btnBuscarId = new javax.swing.JButton();
         btnBuscarNombre = new javax.swing.JButton();
+        btnAlf = new javax.swing.JButton();
+        btnIds = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,6 +191,20 @@ public class GestionClientes extends javax.swing.JFrame {
             }
         });
 
+        btnAlf.setText("Ord. Alf");
+        btnAlf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlfActionPerformed(evt);
+            }
+        });
+
+        btnIds.setText("Ord. Id");
+        btnIds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIdsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -228,13 +244,18 @@ public class GestionClientes extends javax.swing.JFrame {
                         .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAlf)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnIds)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,8 +285,12 @@ public class GestionClientes extends javax.swing.JFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnEliminar)
                     .addComponent(btnListar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAlf)
+                    .addComponent(btnIds))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -595,6 +620,74 @@ public class GestionClientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtNombreFocusLost
 
+    private void btnAlfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlfActionPerformed
+        tableClientes.clearSelection();
+        tableModel.setRowCount(0);
+        
+        this.limpiaTxt();
+        
+        if(this.cuentaClientes()<1){
+            JOptionPane.showMessageDialog(this,"No hay clientes para mostrar");
+        }else{
+            for(int i=0;i<ltaClientes.length;i++){
+                for (int j = i+1; j <=ltaClientes.length-1; j++) {
+                    if((ltaClientes[i].getNombre().compareTo(ltaClientes[j].getNombre()))>0){
+                        Cliente aux=ltaClientes[i];
+                        ltaClientes[i]=ltaClientes[j];
+                        ltaClientes[j]=aux;
+                    }
+                }
+            }
+            
+            for(Cliente c:ltaClientes){
+                Object[] data={c.getId(),c.getNombre(),c.getDireccion(),c.getTelefono()};
+                tableModel.addRow(data);
+            }
+
+        }
+        
+        btnEliminar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtId.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtTelefono.setEnabled(false);
+    }//GEN-LAST:event_btnAlfActionPerformed
+
+    private void btnIdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdsActionPerformed
+        tableClientes.clearSelection();
+        tableModel.setRowCount(0);
+        
+        this.limpiaTxt();
+        
+        if(this.cuentaClientes()<1){
+            JOptionPane.showMessageDialog(this,"No hay clientes para mostrar");
+        }else{
+            for(int i=0;i<ltaClientes.length;i++){
+                for (int j = i+1; j <=ltaClientes.length-1; j++) {
+                    if(ltaClientes[i].getId()<ltaClientes[j].getId()){
+                        Cliente aux=ltaClientes[i];
+                        ltaClientes[i]=ltaClientes[j];
+                        ltaClientes[j]=aux;
+                    }
+                }
+            }
+            
+            for(Cliente c:ltaClientes){
+                Object[] data={c.getId(),c.getNombre(),c.getDireccion(),c.getTelefono()};
+                tableModel.addRow(data);
+            }
+
+        }
+        
+        btnEliminar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtId.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtTelefono.setEnabled(false);
+    }//GEN-LAST:event_btnIdsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -629,11 +722,13 @@ public class GestionClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlf;
     private javax.swing.JButton btnBuscarId;
     private javax.swing.JButton btnBuscarNombre;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnIds;
     private javax.swing.JButton btnListar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JLabel jLabel1;
@@ -652,7 +747,9 @@ public class GestionClientes extends javax.swing.JFrame {
     public Principal getP() {
         return p;
     }
-
+    
+    
+    
     public void setP(Principal p) {
         this.p = p;
     }
