@@ -75,6 +75,7 @@ public class GestionClientes extends javax.swing.JFrame {
         btnBuscarNombre = new javax.swing.JButton();
         btnAlf = new javax.swing.JButton();
         btnIds = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -205,6 +206,8 @@ public class GestionClientes extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("* ?-> sirve para busquedas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -243,19 +246,24 @@ public class GestionClientes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAlf)
+                .addGap(33, 33, 33)
+                .addComponent(btnIds)
+                .addGap(142, 142, 142))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(151, 151, 151)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAlf)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnIds)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(239, 239, 239)
+                                .addComponent(jLabel2))
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,12 +293,14 @@ public class GestionClientes extends javax.swing.JFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnEliminar)
                     .addComponent(btnListar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlf)
                     .addComponent(btnIds))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jLabel6)
                 .addContainerGap())
         );
 
@@ -350,7 +360,7 @@ public class GestionClientes extends javax.swing.JFrame {
         String telefono=txtTelefono.getText();
         
         
-        if(!"".equals(direccion) && !"".equals(nombre) && !"".equals(telefono) && id.matches("([0-9]+)")){
+        if(!"".equals(direccion) && !"".equals(nombre) && !"".equals(telefono)){
 
             
             for(Cliente c:ltaClientes){
@@ -391,7 +401,7 @@ public class GestionClientes extends javax.swing.JFrame {
                 }
             }
         }
-        
+        limpiaTxt();
         ltaClientes[ltaClientes.length-1]=null;
         tableModel.setRowCount(0);
         getP().setLtaClientes(ltaClientes);
@@ -423,17 +433,19 @@ public class GestionClientes extends javax.swing.JFrame {
         txtNombre.setEnabled(estado);
         btnGuardar.setEnabled(estado);
         btnNuevo.setEnabled(!estado);
+        btnListar.setEnabled(!estado);
     }
     
     public void estadoElementosActualizar(boolean estado){
         txtDireccion.setEnabled(estado);
-        txtId.setEnabled(estado);
+        //txtId.setEnabled(estado);
         txtTelefono.setEnabled(estado);
         txtNombre.setEnabled(estado);
         btnGuardar.setEnabled(estado);
         btnNuevo.setEnabled(!estado);
         btnEditar.setEnabled(!estado);
         btnEliminar.setEnabled(!estado);
+        btnListar.setEnabled(!estado);
     }
     
     public void limpiaTxt(){
@@ -455,8 +467,10 @@ public class GestionClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"No hay clientes para mostrar");
         }else{
             for(Cliente c:ltaClientes){
-                Object[] data={c.getId(),c.getNombre(),c.getDireccion(),c.getTelefono()};
-                tableModel.addRow(data);
+                if(c!=null){
+                    Object[] data={c.getId(),c.getNombre(),c.getDireccion(),c.getTelefono()};
+                    tableModel.addRow(data);
+                }
             }
 
         }
@@ -467,7 +481,8 @@ public class GestionClientes extends javax.swing.JFrame {
         txtId.setEnabled(false);
         txtNombre.setEnabled(false);
         txtTelefono.setEnabled(false);
-        
+        btnNuevo.setEnabled(true);
+        btnGuardar.setEnabled(false);
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void tableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseClicked
@@ -509,16 +524,21 @@ public class GestionClientes extends javax.swing.JFrame {
                 }while(!s.matches("([1-9])+"));
         
             for(Cliente c:ltaClientes) {
-                if(c.getId()==Integer.parseInt(s)){
-                    JOptionPane.showMessageDialog(this,"Se encontro cliente...");
-                    txtId.setText(String.valueOf(c.getId()));
-                    txtNombre.setText(c.getNombre());
-                    txtDireccion.setText(c.getDireccion());
-                    txtTelefono.setText(c.getTelefono());
-                    find=true;
-                    break;
+                if(c!=null){
+                    if(c.getId()==Integer.parseInt(s)){
+                        JOptionPane.showMessageDialog(this,"Se encontro cliente...");
+                        txtId.setText(String.valueOf(c.getId()));
+                        txtNombre.setText(c.getNombre());
+                        txtDireccion.setText(c.getDireccion());
+                        txtTelefono.setText(c.getTelefono());
+                        find=true;
+                        break;
+                    }
                 }
             }
+            
+            btnEliminar.setEnabled(true);
+            btnEditar.setEnabled(true);
             
             if(!find){
                 JOptionPane.showMessageDialog(this,"No se encontro cliente...");
@@ -544,16 +564,21 @@ public class GestionClientes extends javax.swing.JFrame {
                 }while(!s.matches("([a-zA-Z])+"));
                 
             for(Cliente c:ltaClientes) {
-                if(c.getNombre().equals(s)){
-                    JOptionPane.showMessageDialog(this,"Se encontro cliente...");
-                    txtId.setText(String.valueOf(c.getId()));
-                    txtNombre.setText(c.getNombre());
-                    txtDireccion.setText(c.getDireccion());
-                    txtTelefono.setText(c.getTelefono());
-                    find=true;
-                    break;
+                if(c!=null){
+                    if(c.getNombre().equals(s)){
+                        JOptionPane.showMessageDialog(this,"Se encontro cliente...");
+                        txtId.setText(String.valueOf(c.getId()));
+                        txtNombre.setText(c.getNombre());
+                        txtDireccion.setText(c.getDireccion());
+                        txtTelefono.setText(c.getTelefono());
+                        find=true;
+                        break;
+                    }
                 }
             }
+            
+             btnEliminar.setEnabled(true);
+            btnEditar.setEnabled(true);
             
             if(!find){
                 JOptionPane.showMessageDialog(this,"No se encontro cliente...");
@@ -568,10 +593,12 @@ public class GestionClientes extends javax.swing.JFrame {
     public void buscarID(String id){
         int idCli = Integer.parseInt(id);
         for (int i = 0; i < getLtaClientes().length; i++) {
-            if(idCli==getLtaClientes()[i].getId()){
-                JOptionPane.showMessageDialog(this,"ID registrado");
-                txtId.setText("");
-                txtId.grabFocus();
+            if(getLtaClientes()[i]!=null){
+                if(idCli==getLtaClientes()[i].getId()){
+                    JOptionPane.showMessageDialog(this,"ID registrado");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }
             }
         }
         
@@ -631,10 +658,12 @@ public class GestionClientes extends javax.swing.JFrame {
         }else{
             for(int i=0;i<ltaClientes.length;i++){
                 for (int j = i+1; j <=ltaClientes.length-1; j++) {
-                    if((ltaClientes[i].getNombre().compareTo(ltaClientes[j].getNombre()))>0){
-                        Cliente aux=ltaClientes[i];
-                        ltaClientes[i]=ltaClientes[j];
-                        ltaClientes[j]=aux;
+                    if(ltaClientes[i]!=null && ltaClientes[j]!=null){
+                        if((ltaClientes[i].getNombre().compareTo(ltaClientes[j].getNombre()))>0){
+                            Cliente aux=ltaClientes[i];
+                            ltaClientes[i]=ltaClientes[j];
+                            ltaClientes[j]=aux;
+                        }
                     }
                 }
             }
@@ -665,6 +694,7 @@ public class GestionClientes extends javax.swing.JFrame {
         }else{
             for(int i=0;i<ltaClientes.length;i++){
                 for (int j = i+1; j <=ltaClientes.length-1; j++) {
+                    if(ltaClientes[i]!=null && ltaClientes[j]!=null)
                     if(ltaClientes[i].getId()<ltaClientes[j].getId()){
                         Cliente aux=ltaClientes[i];
                         ltaClientes[i]=ltaClientes[j];
@@ -736,6 +766,7 @@ public class GestionClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTextField txtDireccion;

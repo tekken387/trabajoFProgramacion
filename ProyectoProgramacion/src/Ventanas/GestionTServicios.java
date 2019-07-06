@@ -64,6 +64,11 @@ public class GestionTServicios extends javax.swing.JFrame {
         jLabel3.setText("Descripcion:");
 
         txtDescripcion.setEnabled(false);
+        txtDescripcion.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDescripcionFocusLost(evt);
+            }
+        });
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +113,11 @@ public class GestionTServicios extends javax.swing.JFrame {
         jLabel4.setText("Precio:");
 
         txtPrecio.setEnabled(false);
+        txtPrecio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPrecioFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,8 +191,10 @@ public class GestionTServicios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"No hay Servicios para mostrar");
         }else{
             for(TipoServicio t:ltaServicios){
-                Object[] data={t.getId(),t.getDescripcion(),t.getPrecio()};
-                tableModel.addRow(data);
+                if(t!=null){
+                    Object[] data={t.getId(),t.getDescripcion(),t.getPrecio()};
+                    tableModel.addRow(data);
+                }
             }
 
         }
@@ -220,7 +232,7 @@ public class GestionTServicios extends javax.swing.JFrame {
 
         int pos=cuentaServicios();
         
-        if(!"".equals(descripcion) && id.matches("([0-9]+)") && precio.matches("([0-9]+)")){
+        if(!"".equals(descripcion) && !"".equals(id) && !"".equals(precio)){
             t.setDescripcion(descripcion);
             t.setId(Integer.parseInt(id));
             t.setPrecio(Double.parseDouble(precio));
@@ -242,15 +254,61 @@ public class GestionTServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
-         if (!evt.isTemporary()) {
+        if (!evt.isTemporary()) {
           String content = txtId.getText();
-          if (!content.matches("([0-9]+)") ) {
-            JOptionPane.showMessageDialog(this,"ID invalid");
-            txtId.setText("");
-          }
+            if(!"".equals(content)){
+                if (!content.matches("([0-9]+)") ) {
+                    JOptionPane.showMessageDialog(this,"ID incorrecto");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }else{
+                    buscarID(content);
+                    
+                }
+            } 
         }
     }//GEN-LAST:event_txtIdFocusLost
 
+    private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtDescripcion.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([BSP])") ) {
+                    JOptionPane.showMessageDialog(this,"Descripcion incorrecta");
+                    txtDescripcion.setText("");
+                    txtDescripcion.grabFocus();
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtDescripcionFocusLost
+
+    private void txtPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrecioFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtPrecio.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9]+.[0-9]+)") ) {
+                    JOptionPane.showMessageDialog(this,"Ingrese precio en este formado: ***.**");
+                    txtPrecio.setText("");
+                    txtPrecio.grabFocus();
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtPrecioFocusLost
+
+    public void buscarID(String id){
+        int idCli = Integer.parseInt(id);
+        for (int i = 0; i < getLtaServicios().length; i++) {
+            if(getLtaServicios()[i]!=null){
+                if(idCli==getLtaServicios()[i].getId()){
+                    JOptionPane.showMessageDialog(this,"ID registrado");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }
+            }
+        }
+        
+    }
+    
     public int cuentaServicios(){
         int nservicios=0;
         for (int i = 0; i < ltaServicios.length; i++) {

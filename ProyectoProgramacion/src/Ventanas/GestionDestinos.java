@@ -53,6 +53,11 @@ public class GestionDestinos extends javax.swing.JFrame {
         jLabel2.setText("Id:");
 
         txtId.setEnabled(false);
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
 
         jLabel3.setText("Descripcion:");
 
@@ -166,8 +171,10 @@ public class GestionDestinos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"No hay Destinos para mostrar");
         }else{
             for(Destino d:getLtaDestinos()){
-                Object[] data={d.getId(),d.getDescripcion()};
-                tableModel.addRow(data);
+                if(d!=null){
+                    Object[] data={d.getId(),d.getDescripcion()};
+                    tableModel.addRow(data);
+                }
             }
 
         }
@@ -217,6 +224,36 @@ public class GestionDestinos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtId.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9])+") ) {
+                    JOptionPane.showMessageDialog(this,"ID incorrecto");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }else{
+                    buscarID(content);
+                    
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtIdFocusLost
+
+    public void buscarID(String id){
+        int idCli = Integer.parseInt(id);
+        for (int i = 0; i < getLtaDestinos().length; i++) {
+            if(getLtaDestinos()[i]!=null){
+                if(idCli==getLtaDestinos()[i].getId()){
+                    JOptionPane.showMessageDialog(this,"ID registrado");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }
+            }
+        }
+        
+    }
+    
     public int cuentaDestinos(){
         int ndestinos=0;
         for (int i = 0; i < getLtaDestinos().length; i++) {

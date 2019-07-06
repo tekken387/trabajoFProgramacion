@@ -150,6 +150,11 @@ public class Venta extends javax.swing.JFrame {
         jLabel2.setText("Id Cliente");
 
         txtId.setEnabled(false);
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
 
         btnNuevaventa.setText("Nueva Venta");
         btnNuevaventa.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +222,15 @@ public class Venta extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nombre"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tableClientes);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -236,6 +249,11 @@ public class Venta extends javax.swing.JFrame {
 
         btnListar.setText("Listar Buses");
         btnListar.setEnabled(false);
+        btnListar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                btnListarFocusLost(evt);
+            }
+        });
         btnListar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListarActionPerformed(evt);
@@ -539,6 +557,9 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void tableBusesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBusesMouseClicked
+        tableClientes.clearSelection();
+        tableModelPasajeros.setRowCount(0);
+        
         DefaultTableModel data = (DefaultTableModel)tableBuses.getModel();
         
        int fila = tableBuses.getSelectedRow();
@@ -547,14 +568,16 @@ public class Venta extends javax.swing.JFrame {
            int idbus =Integer.parseInt(data.getValueAt(fila, 0).toString());
            
            for(Bus b:getLtaBuses()){
-               if(b.getId()==idbus){
-                   for(Cliente c:b.getPasajeros()){
-                       if(c!=null){
-                            Object[] dataCli={c.getId(),c.getNombre()};
-                            tableModelPasajeros.addRow(dataCli);
-                       }
-                   }
-                   break;
+               if(b!=null){
+                    if(b.getId()==idbus){
+                        for(Cliente c:b.getPasajeros()){
+                            if(c!=null){
+                                 Object[] dataCli={c.getId(),c.getNombre()};
+                                 tableModelPasajeros.addRow(dataCli);
+                            }
+                        }
+                        break;
+                    }
                }
            }
 
@@ -576,6 +599,7 @@ public class Venta extends javax.swing.JFrame {
                if(b.getId()==idbus){
                    busdestino=b;
                    btnGuardar.setEnabled(true);
+                   JOptionPane.showMessageDialog(this,"Bus Seleccionado: "+b.getId());
                    break;
                }
            }
@@ -588,6 +612,23 @@ public class Venta extends javax.swing.JFrame {
         ltapasajes=new Pasaje[sumaPasajeros()];
         n=ltapasajes.length;
     }//GEN-LAST:event_formComponentShown
+
+    private void btnListarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnListarFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListarFocusLost
+
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtId.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9]{5})+") ) {
+                    JOptionPane.showMessageDialog(this,"ID incorrecto");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtIdFocusLost
 
     /**
      * @param args the command line arguments

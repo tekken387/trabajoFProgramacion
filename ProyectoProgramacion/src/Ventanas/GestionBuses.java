@@ -77,10 +77,20 @@ public class GestionBuses extends javax.swing.JFrame {
         jLabel2.setText("Id:");
 
         txtId.setEnabled(false);
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
 
         jLabel3.setText("Capacidad:");
 
         txtCapacidad.setEnabled(false);
+        txtCapacidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCapacidadFocusLost(evt);
+            }
+        });
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -230,8 +240,10 @@ public class GestionBuses extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"No hay Buses para mostrar");
         }else{
             for(Bus b:getLtaBuses()){
-                Object[] data={b.getId(),b.getCapacidad(),b.getTipoServicio().getDescripcion(),b.getDestino().getDescripcion()};
-                tableModel.addRow(data);
+                if(b!=null){
+                    Object[] data={b.getId(),b.getCapacidad(),b.getTipoServicio().getDescripcion(),b.getDestino().getDescripcion()};
+                    tableModel.addRow(data);
+                }
             }
 
         }
@@ -299,6 +311,49 @@ public class GestionBuses extends javax.swing.JFrame {
         cargaServicios();
         cargaDestinos();
     }//GEN-LAST:event_formComponentShown
+
+    public void buscarID(String id){
+        int idCli = Integer.parseInt(id);
+        for (int i = 0; i < getLtaBuses().length; i++) {
+            if(getLtaBuses()[i]!=null){
+                if(idCli==getLtaBuses()[i].getId()){
+                    JOptionPane.showMessageDialog(this,"ID registrado");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }
+            }
+        }
+        
+    }
+    
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtId.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9])+") ) {
+                    JOptionPane.showMessageDialog(this,"ID incorrecto");
+                    txtId.setText("");
+                    txtId.grabFocus();
+                }else{
+                    buscarID(content);
+                    
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtIdFocusLost
+
+    private void txtCapacidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCapacidadFocusLost
+        if (!evt.isTemporary()) {
+          String content = txtCapacidad.getText();
+            if(!"".equals(content)){
+                if (!content.matches("([0-9])+") ) {
+                    JOptionPane.showMessageDialog(this,"Capacidad incorrecta");
+                    txtCapacidad.setText("");
+                    txtCapacidad.grabFocus();
+                }
+            } 
+        }
+    }//GEN-LAST:event_txtCapacidadFocusLost
 
     public int cuentaBuses(){
         int nbuses=0;
